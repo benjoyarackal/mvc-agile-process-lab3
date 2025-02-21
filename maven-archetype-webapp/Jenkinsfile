@@ -1,43 +1,20 @@
 pipeline {
     agent any
-
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                 git url: 'https://github.com/benjoyarackal/maven-webapp-.git', credentialsId: 'benjoyarackal'
             }
         }
-        
         stage('Build') {
             steps {
-                script {
-                    sh 'mvn clean install'
-                }
+                sh 'mvn clean package'
             }
         }
-        
-        stage('Test') {
-            steps {
-                script {
-                    sh 'mvn test'
-                }
-            }
-        }
-        
         stage('Deploy') {
             steps {
-                echo 'Deploy step (optional)'
+                echo 'Deploying application...'
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Build and tests succeeded!'
-        }
-
-        failure {
-            echo 'Build or tests failed!'
         }
     }
 }
