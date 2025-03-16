@@ -1,0 +1,19 @@
+# Ignore Visual Studio temporary files, folders, and files
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Ignore build outputs
+bin/
+obj/
+
+# User-specific files
+*.log
+
+# Ignore IDE config files
+*.sublime-workspace
+*.sublime-project
