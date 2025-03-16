@@ -17,28 +17,33 @@ pipeline {
 
         stage('Build Maven Project') {
             steps {
-                // Change the command to 'mvn clean install'
-                sh 'mvn clean install'
+                bat 'mvn clean install'  // Use bat for Windows
+            }
+        }
+
+        stage('Test') {
+            steps {
+                bat 'mvn test'  // Use bat for Windows
             }
         }
 
         stage('Docker Login') {
             steps {
                 withCredentials([string(credentialsId: 'docker-hub-password', variable: 'DOCKER_PASSWORD')]) {
-                    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                    bat 'echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin'  // Use bat for Windows
                 }
             }
         }
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t $DOCKER_HUB_REPO .'
+                bat 'docker build -t %DOCKER_HUB_REPO% .'  // Use bat for Windows
             }
         }
 
         stage('Docker Push') {
             steps {
-                sh 'docker push $DOCKER_HUB_REPO'
+                bat 'docker push %DOCKER_HUB_REPO%'  // Use bat for Windows
             }
         }
     }
@@ -46,7 +51,7 @@ pipeline {
     post {
         always {
             echo "Pipeline completed. Cleaning up workspace."
-            sh 'docker logout'
+            bat 'docker logout'  // Use bat for Windows
         }
         failure {
             echo "Pipeline failed. Check logs."
